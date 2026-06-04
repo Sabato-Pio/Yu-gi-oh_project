@@ -29,7 +29,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@echo "Compilando $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Regola per pulire il workspace (versione Windows)
+# Regola per pulire il workspace
 clean:
 	@echo "Pulizia in corso..."
 	@if exist $(OBJ_DIR)\*.o del /Q $(OBJ_DIR)\*.o
