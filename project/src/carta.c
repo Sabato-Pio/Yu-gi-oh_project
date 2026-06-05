@@ -3,7 +3,7 @@
 #include <string.h>
 #include "carta.h"
 /*Definizione della struct nascosta al client*/
-typedef struct ccarta
+struct ccarta
 {
     int id;
     char nome[100];
@@ -67,7 +67,7 @@ int getDef(carta c)
 {
     if (c == NULL)
         return -1;
-    return c->atk;
+    return c->def;
 }
 
 void cancellaCarta(carta c)
