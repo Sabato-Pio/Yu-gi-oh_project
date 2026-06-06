@@ -18,4 +18,7 @@ Btree figlioDX(Btree T);
 
 /* stampa le carte in ordine alfabetico*/
 void inorder(Btree T);
+
+/* distrugge l'albero e dealloca tutte le carte*/
+void cancellaBtree(Btree T);
 #endif

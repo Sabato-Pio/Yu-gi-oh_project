@@ -27,7 +27,7 @@ $(OBJ_DIR):
 	@if not exist $(OBJ_DIR) mkdir $(OBJ_DIR)
 
 # Come compilare i singoli file .c nei file .o
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	@echo "Compilando $<..."
 	$(CC) $(CFLAGS) -c $< -o $@
 

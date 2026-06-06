@@ -84,3 +84,15 @@ void inorder(Btree T) {
     output_item(getItem(getRoot(T)));   
     inorder(figlioDX(T));               
 }
+
+/* visita in post-ordine per deallocare la memoria dell albero*/
+void cancellaBtree(Btree T) {
+    if (emptyBtree(T)) return; 
+    
+    cancellaBtree(figlioSX(T));
+    cancellaBtree(figlioDX(T));
+    
+    cancellaCarta(getItem(getRoot(T)));
+    
+    free(T);
+}
