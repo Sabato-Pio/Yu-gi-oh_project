@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "item.h"
 #include "carta.h"
+#include "btree.h"
 
 int main() {
     printf("CIAO! Benvenuto nel Database Tier di Yugioh Meta!\n\n");
@@ -20,6 +21,11 @@ int main() {
     } else {
         printf("-> Le carte hanno esattamente lo stesso nome.\n");
     }
+    
+    Btree db = newBtree();
+    db = insertBtree(db, c1);
+    db = insertBtree(db, c2);
+    inorder(db);
 
     cancellaCarta(c1);
     cancellaCarta(c2);

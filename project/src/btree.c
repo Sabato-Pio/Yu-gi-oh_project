@@ -10,6 +10,17 @@ struct node{
     struct node *destro;
 };
 
+/* Restituisce il puntatore al nodo radice */
+static struct node *getRoot(Btree T) {
+    return T;
+}
+
+/* Estrae il dato dal nodo */
+static item getItem(struct node *N) {
+    if (N == NULL) return NULLITEM;
+    return N->value;
+}
+
 /*creiamo il nostro albero*/
 Btree newBtree(void){
     return NULL;
@@ -45,9 +56,12 @@ Btree insertBtree(Btree T, item val){
     return T;
 }
 
-/* Restituisce il puntatore al nodo radice */
-struct node *getRoot(Btree T) {
-    return T;
+item searchBtree(Btree T, char *nomeChiave) {
+    if (emptyBtree(T)) return NULLITEM;
+    int cmp = strcmp(nomeChiave, getNome(getItem(getRoot(T))));
+    if (cmp == 0) return getItem(getRoot(T));
+    if (cmp < 0)  return searchBtree(figlioSX(T), nomeChiave);
+    else          return searchBtree(figlioDX(T), nomeChiave);
 }
 
 /* Restituisce il sottoalbero sinistro */
@@ -60,12 +74,6 @@ Btree figlioSX(Btree T) {
 Btree figlioDX(Btree T) {
     if (T != NULL) return T->destro;
     return NULL;
-}
-
-/* Estrae il dato dal nodo */
-item getItem(struct node *N) {
-    if (N == NULL) return NULLITEM;
-    return N->value;
 }
 
 /*stampa in ordine alfabetico*/
