@@ -39,3 +39,20 @@ Btree caricaDatabase(Btree db, const char *filename) {
     fclose(file);
     return db;
 }
+
+int salvaCartaSuFile(const char *filename, carta c){
+    if(c==NULL) return 0;
+
+    /*scriviamo in append cioè accoda tutto*/
+    FILE *file=fopen(filename,"a");
+    if(file==NULL){
+        printf("Errore:impossibile aprire il file %s in scrittura.\n",filename);
+        return 0;
+    }
+
+    /*estraiamo i dati usando i getter*/
+    fprintf(file, "%d,%s,%s,%d,%d\n", getId(c), getNome(c), getArchetipo(c), getAtk(c), getDef(c));
+
+    fclose(file);
+    return 1;
+}

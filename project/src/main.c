@@ -11,15 +11,27 @@ int main() {
 
     Btree db = newBtree();
 
-    printf("Caricamento carte dal file in corso...\n");
+    printf("Caricamento carte in corso...\n");
     db = caricaDatabase(db, "data/carte.txt"); 
 
-    printf("\n--- Database Attuale ---\n");
+    printf("\n--- Database PRIMA dell'inserimento ---\n");
     inorder(db);
 
-    printf("\nDeallocazione memoria in corso...\n");
+    printf("\nCreazione e salvataggio di una nuova carta...\n");
+    carta nuova = creaCarta(33704273, "Lubellion il Drago Cenerino", "Albaz", 2500, 2000);
+    
+    if (nuova != NULL) {
+        db = insertBtree(db, nuova);
+        
+        if (salvaCartaSuFile("data/carte.txt", nuova)) {
+            printf("Carta salvata con successo sul file 'carte.txt'!\n");
+        }
+    }
+
+    printf("\n--- Database DOPO l'inserimento ---\n");
+    inorder(db);
+
     cancellaBtree(db);
-    printf("Memoria liberata con successo. Arrivederci!\n");
 
     return 0;
 }
