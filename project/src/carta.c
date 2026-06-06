@@ -42,14 +42,14 @@ int getId(carta c)
     return c->id;
 }
 
-char *getNome(carta c)
+const char *getNome(carta c)
 {
     if (c == NULL)
         return NULL;
     return c->nome;
 }
 
-char *getArchetipo(carta c)
+const char *getArchetipo(carta c)
 {
     if (c == NULL)
         return NULL;

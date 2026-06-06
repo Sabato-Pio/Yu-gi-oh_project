@@ -9,8 +9,8 @@ carta creaCarta(int id, char *nome, char *archetipo, int atk, int def);
 
 /*getter*/
 int getId(carta c);
-char* getNome(carta c);
-char* getArchetipo(carta c);
+const char* getNome(carta c);
+const char* getArchetipo(carta c);
 int getAtk(carta c);
 int getDef(carta c);
 
