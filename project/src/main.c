@@ -1,37 +1,109 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "item.h"
 #include "carta.h"
 #include "btree.h"
-#include "loader.h"  
+#include "loader.h"
 
-int main() {
-    system("cls");
-    printf("\033[34mCIAO! Benvenuto nel Database Tier di Yugioh Meta!\033[0m\n\n"); 
-
+int main()
+{
     Btree db = newBtree();
+    int scelta = -1;
 
-    printf("Caricamento carte in corso...\n");
-    db = caricaDatabase(db, "data/carte.txt"); 
+    system("cls");
+    printf("\033[34mCIAO! Benvenuto nel Database Tier di Carte Meta!\033[0m\n\n");
 
-    printf("\n--- Database PRIMA dell'inserimento ---\n");
-    inorder(db);
+    printf("\nCaricamento carte in corso...\n");
+    db=caricaDatabase(db, "data/carte.txt");
+    printf("\nCaricamento carte completato!\n");
 
-    printf("\nCreazione e salvataggio di una nuova carta...\n");
-    carta nuova = creaCarta(33704273, "Lubellion il Drago Cenerino", "Albaz", 2500, 2000);
-    
-    if (nuova != NULL) {
-        db = insertBtree(db, nuova);
-        
-        if (salvaCartaSuFile("data/carte.txt", nuova)) {
-            printf("Carta salvata con successo sul file 'carte.txt'!\n");
+    system("cls");
+    printf("Database di Carte Meta");
+    while (scelta != 0)
+    {
+        printf("\n-----------------------------\n");
+        printf("1. Inserisci una nuova carta manuale\n");
+        printf("2. Stampa tutte le carte (alfabetico)\n");
+        printf("3. Elimina una carta (Work in Progress)\n");
+        printf("0. Esci\n");
+        printf("\n-----------------------------\n");
+        printf("Seleziona un'opzione: ");
+
+        scanf("%d", &scelta);
+        while (getchar() != '\n')
+            ; // svuota il buffer
+
+        switch (scelta)
+        {
+        case 1:
+        {
+            int id, atk, def;
+            char nome[100];
+            char archetipo[50];
+
+            printf("\n INSERIMENTO NUOVA CARTA \n");
+
+            printf("Inserisci ID: ");
+            scanf("%d", &id);
+            while (getchar() != '\n');
+
+            printf("Inserisci Nome carta: ");
+            fgets(nome, 100, stdin);       // leggi da file stdin indica che il file è la tastiera
+            nome[strcspn(nome, "\n")] = 0; // rimuove l ultimo invio
+
+            printf("Inseirisci Archetipo: ");
+            fgets(archetipo, 50, stdin);
+            archetipo[strcspn(archetipo, "\n")] = 0;
+
+            printf("Inserisci ATK: ");
+            scanf("%d", &atk);
+
+            printf("Inserisci DEF: ");
+            scanf("%d", &def);
+            while (getchar() != '\n');
+
+            carta nuova = creaCarta(id, nome, archetipo, atk, def);
+            if (nuova != NULL)
+            {
+                db = insertBtree(db, nuova);
+                printf("CARTA '%s' INSERITA CON SUCCESSO NEL DATABASE!\n", getNome(nuova));
+
+                if(salvaCartaSuFile("data/carte.txt",nuova)){
+                    printf("Carta salvata nel file di memoria.\n");
+                }else{
+                    printf("Errore durante il salvataggio sul file.\n");
+                }
+            }
+            else
+            {
+                printf("Errore: Memoria insufficiente, impossibile creare la carta.\n");
+            }
+            break;
+        }
+        case 2:
+            printf("\n DATABASE ATTUALE \n");
+            if (emptyBtree(db))
+            {
+                printf("Ancora nessuna carta nel database.");
+            }
+            else
+            {
+                inorder(db);
+            }
+            break;
+
+        case 3:
+            printf("\n Eliminazione in fase di sviluppo attendi l'update...\n");
+            break;
+
+        case 0:
+            printf("\n Grazie per aver usato il nostro programma a presto!");
+            cancellaBtree(db);
+            break;
+
+        default:
+            printf("\nScelta non valida. Riprova. \n");
         }
     }
-
-    printf("\n--- Database DOPO l'inserimento ---\n");
-    inorder(db);
-
-    cancellaBtree(db);
-
-    return 0;
 }
