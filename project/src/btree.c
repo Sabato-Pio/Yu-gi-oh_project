@@ -96,3 +96,56 @@ void cancellaBtree(Btree T) {
     
     free(T);
 }
+
+/* Funzione di supporto: trova il nodo con il valore minimo */
+static struct node *minimoBtree(Btree T) {
+    if (T == NULL) return NULL;
+    while (T->sinistro != NULL) {
+        T = T->sinistro;
+    }
+    return T;
+}
+
+/* Funzione principale di cancellazione */
+Btree deleteBtree(Btree T, char *nomeChiave) {
+    if (emptyBtree(T)) return T;
+
+    /* Cerchiamo il nodo da eliminare */
+    int cmp = strcmp(nomeChiave, getNome(T->value));
+
+    if (cmp < 0) {
+        T->sinistro = deleteBtree(T->sinistro, nomeChiave);
+    } else if (cmp > 0) {
+        T->destro = deleteBtree(T->destro, nomeChiave);
+    } else {
+        /*Gestiamo i 3 casi quando troviamo i nodi */
+        
+        /* Caso 1 e 2: Nessun figlio o un solo figlio */
+        if (T->sinistro == NULL) {
+            Btree temp = T->destro;
+            cancellaCarta(T->value);
+            free(T);
+            return temp;
+        } else if (T->destro == NULL) {
+            Btree temp = T->sinistro;
+            cancellaCarta(T->value);
+            free(T);
+            return temp;
+        }
+
+        /* Caso 3: Il nodo ha due figli */
+        Btree temp = minimoBtree(T->destro);
+        
+        /* Invece di scollegare i nodi impazzendo con i puntatori, scambiamo 
+           semplicemente i puntatori "item" tra questo nodo e il successore! */
+        item swap = T->value;
+        T->value = temp->value;
+        temp->value = swap;
+
+        /* Ora la carta che volevamo eliminare si trova fisicamente più in basso,
+           nel nodo "temp", che per definizione matematica ha al massimo un figlio.*/
+        T->destro = deleteBtree(T->destro, (char *)getNome(swap));
+    }
+    
+    return T;
+}

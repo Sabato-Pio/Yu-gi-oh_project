@@ -94,8 +94,28 @@ int main()
             break;
 
         case 3:
-            printf("\n Eliminazione in fase di sviluppo attendi l'update...\n");
+        {
+            char nomeDaCancellare[100];
+            printf("\n--- ELIMINAZIONE CARTA ---\n");
+            
+            if (emptyBtree(db)) {
+                printf("Il database e' vuoto, nulla da eliminare.\n");
+                break;
+            }
+            
+            printf("Inserisci il NOME ESATTO della carta da eliminare: ");
+            fgets(nomeDaCancellare, 100, stdin);
+            nomeDaCancellare[strcspn(nomeDaCancellare, "\n")] = 0; /* Rimuove l'invio */
+            
+            /* Prima di cancellare, verifichiamo che esista davvero */
+            if (searchBtree(db, nomeDaCancellare) != NULLITEM) {
+                db = deleteBtree(db, nomeDaCancellare);
+                printf("-> CARTA '%s' ELIMINATA CON SUCCESSO DAL DATABASE IN MEMORIA!\n", nomeDaCancellare);
+            } else {
+                printf("-> Errore: Carta '%s' non trovata nel Tier Meta.\n", nomeDaCancellare);
+            }
             break;
+        }
 
         case 0:
             printf("\n Grazie per aver usato il nostro programma a presto!");

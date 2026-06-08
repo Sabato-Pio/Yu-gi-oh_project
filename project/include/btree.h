@@ -21,4 +21,8 @@ void inorder(Btree T);
 
 /* distrugge l'albero e dealloca tutte le carte*/
 void cancellaBtree(Btree T);
+
+/* Rimuove una carta dall'albero in base al nome e restituisce la nuova radice */
+Btree deleteBtree(Btree T, char *nomeChiave);
+
 #endif
