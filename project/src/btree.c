@@ -149,3 +149,8 @@ Btree deleteBtree(Btree T, char *nomeChiave) {
     
     return T;
 }
+
+item ottieniItem(Btree T) {
+    if (emptyBtree(T)) return NULLITEM;
+    return T->value;
+}

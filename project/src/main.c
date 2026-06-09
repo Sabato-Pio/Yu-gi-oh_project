@@ -25,7 +25,7 @@ int main()
         printf("\n-----------------------------\n");
         printf("1. Inserisci una nuova carta manuale\n");
         printf("2. Stampa tutte le carte (alfabetico)\n");
-        printf("3. Elimina una carta (Work in Progress)\n");
+        printf("3. Elimina una carta \n");
         printf("0. Esci\n");
         printf("\n-----------------------------\n");
         printf("Seleziona un'opzione: ");
@@ -92,7 +92,6 @@ int main()
                 inorder(db);
             }
             break;
-
         case 3:
         {
             char nomeDaCancellare[100];
@@ -109,10 +108,20 @@ int main()
             
             /* Prima di cancellare, verifichiamo che esista davvero */
             if (searchBtree(db, nomeDaCancellare) != NULLITEM) {
+                
+                /* 1. ELIMINAZIONE DALLA RAM */
                 db = deleteBtree(db, nomeDaCancellare);
                 printf("-> CARTA '%s' ELIMINATA CON SUCCESSO DAL DATABASE IN MEMORIA!\n", nomeDaCancellare);
+                
+                /* 2. ELIMINAZIONE DAL FILE*/
+                if (salvaInteroDatabase(db, "data/carte.txt")) {
+                    printf("-> File 'carte.txt' aggiornato in modo permanente!\n");
+                } else {
+                    printf("-> Errore durante l'aggiornamento del file.\n");
+                }
+
             } else {
-                printf("-> Errore: Carta '%s' non trovata nel Tier Meta.\n", nomeDaCancellare);
+                printf("-> Errore: Carta '%s' non trovata nel database.\n", nomeDaCancellare);
             }
             break;
         }

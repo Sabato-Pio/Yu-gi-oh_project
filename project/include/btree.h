@@ -25,4 +25,7 @@ void cancellaBtree(Btree T);
 /* Rimuove una carta dall'albero in base al nome e restituisce la nuova radice */
 Btree deleteBtree(Btree T, char *nomeChiave);
 
+/* Restituisce la carta contenuta nel nodo */
+item ottieniItem(Btree T);
+
 #endif

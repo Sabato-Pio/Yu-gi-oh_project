@@ -56,3 +56,30 @@ int salvaCartaSuFile(const char *filename, carta c){
     fclose(file);
     return 1;
 }
+
+/* Funzione locale ricorsiva per scrivere l'albero su file*/
+static void scriviAlberoSuFile(Btree T, FILE *file) {
+    if (emptyBtree(T)) return;
+
+    scriviAlberoSuFile(figlioSX(T), file);
+
+    carta c = ottieniItem(T);
+    if (c != NULL) {
+        fprintf(file, "%d,%s,%s,%d,%d\n", getId(c), getNome(c), getArchetipo(c), getAtk(c), getDef(c));
+    }
+
+    scriviAlberoSuFile(figlioDX(T), file);
+}
+
+int salvaInteroDatabase(Btree db, const char *filename) {
+    FILE *file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Errore: Impossibile sovrascrivere il file %s\n", filename);
+        return 0;
+    }
+
+    scriviAlberoSuFile(db, file);
+
+    fclose(file);
+    return 1;
+}
